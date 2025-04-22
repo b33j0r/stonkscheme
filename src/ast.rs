@@ -23,6 +23,7 @@ pub enum Expr {
     Comment(String),
     Combination(Box<Expr>, Vec<Expr>),
     Symbol(Symbol),
+    Boolean(bool),
     Float(f64),
     String(String),
     Duration(Duration),

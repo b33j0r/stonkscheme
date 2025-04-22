@@ -15,3 +15,9 @@ implemented yet. Current special forms:
 
 * `set`
 * `get`
+* `car`
+* `cdr`
+* `cons`
+* `if`
+
++ `+`
