@@ -85,6 +85,24 @@ impl Interpreter {
                                     panic!("get requires a Symbol key");
                                 }
                             }
+                            "car" => {
+                                if let Some(Expr::Combination(target, _)) = new_args.get(0) {
+                                    Ok(*target.clone())
+                                } else {
+                                    panic!("car requires a list");
+                                }
+                            }
+                            "cdr" => {
+                                if let Some(Expr::Combination(_, args)) = new_args.get(0) {
+                                    if args.len() > 1 {
+                                        Ok(Expr::Combination(Box::new(args[0].clone()), args[1..].to_vec()))
+                                    } else {
+                                        panic!("cdr requires a list with at least two elements");
+                                    }
+                                } else {
+                                    panic!("car requires a list");
+                                }
+                            }
                             _ => {
                                 // Handle other operators
                                 return Ok(Expr::Combination(Box::new(target), new_args));
