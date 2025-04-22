@@ -15,9 +15,10 @@ pub struct Symbol(pub String);
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Expr {
-    Integer(i64),
+    Comment(String),
+    Combination(Box<Expr>, Vec<Expr>),
     Operator(Symbol),
+    Integer(i64),
     Duration(Duration),
     Timestamp(Timestamp),
-    Combination(Box<Expr>, Vec<Expr>),
 }

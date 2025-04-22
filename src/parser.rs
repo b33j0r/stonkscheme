@@ -100,7 +100,7 @@ fn parse_int<'a>(input: ParserSpan<'a>) -> IResult<ParserSpan<'a>, Expr, ParseEr
     }).parse(input)
 }
 
-fn parse_combination_inner<'a>(input: ParserSpan<'a>) -> IResult<ParserSpan<'a>, Expr, ParseError> {
+fn parse_combination_inner(input: ParserSpan) -> IResult<ParserSpan, Expr, ParseError> {
     separated_pair(
         parse_expr,
         multispace0,
@@ -110,7 +110,7 @@ fn parse_combination_inner<'a>(input: ParserSpan<'a>) -> IResult<ParserSpan<'a>,
     ).parse(input)
 }
 
-fn parse_combination<'a>(input: ParserSpan<'a>) -> IResult<ParserSpan<'a>, Expr, ParseError> {
+fn parse_combination(input: ParserSpan) -> IResult<ParserSpan, Expr, ParseError> {
     delimited(tag("("), parse_combination_inner, tag(")")).parse(input)
 }
 
@@ -118,7 +118,11 @@ pub fn parse_expr<'a>(input: ParserSpan<'a>) -> IResult<ParserSpan<'a>, Spanned<
     alt((
         spanned(parse_int),
         spanned(map_res(
-            take_while1(|c: char| c.is_ascii_alphabetic() || c == '_' || c == '+' || c == '-' || c == '*' || c == '/' || c == '=' || c == '>' || c == '<'),
+            take_while1(
+                |c: char| c.is_ascii_alphabetic()
+                    || c == '_' || c == '+' || c == '-' || c == '*'
+                    || c == '=' || c == '>' || c == '<' || c == '!'
+                    || c == '?' || c == '/' || c == '$'),
             |s: ParserSpan<'a>| Ok(Expr::Operator(Symbol(s.fragment().to_string()))),
         )),
         spanned(parse_combination)
@@ -169,12 +173,15 @@ mod tests {
 
     #[test]
     fn parses_combination() {
-        let sp = parse_snippet("(+ 2 1)").expect("parse");
+        let sp = parse_snippet("(define x 1)").expect("parse");
         assert_eq!(
             sp.value,
             Expr::Combination(
-                Box::new(Expr::Operator(Symbol("+".to_string()))),
-                vec![Expr::Integer(2), Expr::Integer(1)]
+                Box::new(Expr::Operator(Symbol("define".to_string()))),
+                vec![
+                    Expr::Operator(Symbol("x".to_string())),
+                    Expr::Integer(1)
+                ]
             )
         );
     }
