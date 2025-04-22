@@ -1,0 +1,30 @@
+[package]
+name = "stonkscheme"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.98"
+async-trait = "0.1.88"
+axum = "0.8.3"
+chrono = "0.4.40"
+color-eyre = "0.6.3"
+dashmap = "7.0.0-rc2"
+http = "1.3.1"
+petgraph = "0.8.1"
+rand = { version = "0.9.1", features = ["std_rng", "std"] }
+rustyline = { version = "15.0.0", features = ["with-file-history"] }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+tokio = { version = "1.0", features = ["full"] }
+tokio-stream = { version = "0.1.17", features = ["full"] }
+tokio-util = { version = "0.7", features = ["full"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19" , features = ["env-filter", "local-time", "fmt", "registry"] }
+uuid = { version = "1.16.0", features = ["v7"] }
+sha2 = { version = "0.11.0-pre.5", features = ["std"] }
+bytes = "1.10.1"
+nom = { version = "8.0.0", features = ["std", "alloc"] }
+nom_locate = { version = "5.0.0", features = ["alloc", "std"] }
+lazy_static = "1.5.0"
+thiserror = "2.0.12"
